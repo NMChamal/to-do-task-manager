@@ -22,7 +22,18 @@ const getRecentTasks = async (req, res) => {
     }
 };
 
+const markTaskAsCompleted = async (req, res) => {
+    try {
+        const { id } = req.params;
+        await taskService.markTaskAsCompleted(id, req.user.id);
+        res.status(200).json({ message: 'Task marked as completed' });
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to mark task as completed' });
+    }
+};
+
 module.exports = {
     createTask,
     getRecentTasks,
+    markTaskAsCompleted,
 };

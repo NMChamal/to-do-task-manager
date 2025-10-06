@@ -12,7 +12,12 @@ const getRecentTasks = async (userId) => {
     return await taskRepository.findRecentByUser(userId);
 };
 
+const markTaskAsCompleted = async (id, userId) => {
+    return await taskRepository.markAsCompleted(id, userId);
+};
+
 module.exports = {
     createTask,
     getRecentTasks,
+    markTaskAsCompleted,
 };

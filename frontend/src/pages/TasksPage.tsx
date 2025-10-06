@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { getTasks, createTask } from '../services/api';
+import type { FormEvent } from 'react';
+import { getTasks, createTask, markTaskAsCompleted } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import Spinner from '../components/Spinner';
 import SmallSpinner from '../components/SmallSpinner';
@@ -8,6 +9,7 @@ interface Task {
     id: number;
     title: string;
     description: string;
+    completed: boolean;
 }
 
 const TasksPage = () => {
@@ -17,6 +19,7 @@ const TasksPage = () => {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(true);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [taskStatus, setTaskStatus] = useState<{ [key: number]: boolean }>({});
     const { logout } = useAuth();
 
     useEffect(() => {
@@ -25,7 +28,11 @@ const TasksPage = () => {
                 const fetchedTasks = await getTasks();
                 setTasks(fetchedTasks);
             } catch (err) {
-                setError('Failed to fetch tasks. Please try again.');
+                if (err instanceof Error) {
+                    setError(err.message);
+                } else {
+                    setError('Failed to fetch tasks. Please try again.');
+                }
             } finally {
                 setLoading(false);
             }
@@ -33,7 +40,7 @@ const TasksPage = () => {
         fetchTasks();
     }, []);
 
-    const handleAddTask = async (e: React.FormEvent) => {
+    const handleAddTask = async (e: FormEvent) => {
         e.preventDefault();
         if (!title) {
             setError('Title is required.');
@@ -47,9 +54,29 @@ const TasksPage = () => {
             setTitle('');
             setDescription('');
         } catch (err) {
-            setError('Failed to create task.');
+            if (err instanceof Error) {
+                setError(err.message);
+            } else {
+                setError('Failed to create task.');
+            }
         } finally {
             setIsSubmitting(false);
+        }
+    };
+
+    const handleDone = async (id: number) => {
+        setTaskStatus((prev) => ({ ...prev, [id]: true }));
+        try {
+            await markTaskAsCompleted(id);
+            setTasks(tasks.filter(t => t.id !== id));
+        } catch (err) {
+            if (err instanceof Error) {
+                setError(err.message);
+            } else {
+                setError('Failed to update task.');
+            }
+        } finally {
+            setTaskStatus((prev) => ({ ...prev, [id]: false }));
         }
     };
 
@@ -107,13 +134,17 @@ const TasksPage = () => {
                         ) : (
                             <div className="space-y-4">
                                 {tasks.map((task) => (
-                                    <div key={task.id} className="p-4 bg-gray-200 rounded-lg shadow flex justify-between items-center">
+                                    <div key={task.id} className={`p-4 rounded-lg shadow flex justify-between items-center bg-gray-200`}>
                                         <div>
-                                            <h3 className="font-bold">{task.title}</h3>
-                                            <p className="text-sm text-gray-600">{task.description}</p>
+                                            <h3 className={`font-bold`}>{task.title}</h3>
+                                            <p className={`text-sm text-gray-600`}>{task.description}</p>
                                         </div>
-                                        <button className="px-4 py-1 text-sm border border-gray-400 rounded-md bg-white">
-                                            Done
+                                        <button 
+                                            onClick={() => handleDone(task.id)} 
+                                            className="px-4 py-1 text-sm border border-gray-400 rounded-md bg-white flex items-center"
+                                            disabled={taskStatus[task.id]}
+                                        >
+                                            {taskStatus[task.id] ? <SmallSpinner /> : 'Done'}
                                         </button>
                                     </div>
                                 ))}

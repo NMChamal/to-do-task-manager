@@ -12,7 +12,7 @@ const create = (title, description, userId) => {
 
 const findRecentByUser = (userId) => {
     return new Promise((resolve, reject) => {
-        const sql = `SELECT * FROM tasks WHERE user_id = ? ORDER BY created_at DESC LIMIT 5`;
+        const sql = `SELECT * FROM tasks WHERE user_id = ? AND completed = 0 ORDER BY created_at DESC LIMIT 5`;
         db.all(sql, [userId], (err, rows) => {
             if (err) reject(err);
             resolve(rows);
@@ -20,7 +20,18 @@ const findRecentByUser = (userId) => {
     });
 };
 
+const markAsCompleted = (id, userId) => {
+    return new Promise((resolve, reject) => {
+        const sql = 'UPDATE tasks SET completed = 1 WHERE id = ? AND user_id = ?';
+        db.run(sql, [id, userId], function(err) {
+            if (err) reject(err);
+            resolve({ changes: this.changes });
+        });
+    });
+};
+
 module.exports = {
     create,
     findRecentByUser,
+    markAsCompleted,
 };

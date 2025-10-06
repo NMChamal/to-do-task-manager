@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3000/api'; // Assuming the backend runs on port 3000
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
 
 const getAuthHeaders = () => {
     const token = localStorage.getItem('token');
@@ -52,6 +52,29 @@ export const createTask = async (title: string, description: string) => {
     });
     if (!response.ok) {
         throw new Error('Failed to create task');
+    }
+    return await response.json();
+};
+
+export const updateTask = async (id: number, title: string, description: string) => {
+    const response = await fetch(`${API_URL}/tasks/${id}`, {
+        method: 'PUT',
+        headers: getAuthHeaders(),
+        body: JSON.stringify({ title, description }),
+    });
+    if (!response.ok) {
+        throw new Error('Failed to update task');
+    }
+    return await response.json();
+};
+
+export const markTaskAsCompleted = async (id: number) => {
+    const response = await fetch(`${API_URL}/tasks/${id}/complete`, {
+        method: 'PATCH',
+        headers: getAuthHeaders(),
+    });
+    if (!response.ok) {
+        throw new Error('Failed to mark task as completed');
     }
     return await response.json();
 };
