@@ -68,7 +68,7 @@ const TasksPage = () => {
         setTaskStatus((prev) => ({ ...prev, [id]: true }));
         try {
             await markTaskAsCompleted(id);
-            setTasks(tasks.filter(t => t.id !== id));
+            window.location.reload();
         } catch (err) {
             if (err instanceof Error) {
                 setError(err.message);
@@ -85,7 +85,7 @@ const TasksPage = () => {
             <header className="bg-white shadow-sm">
                 <div className="container mx-auto px-4 py-4 flex justify-between items-center">
                     <h1 className="text-xl font-bold">Task Manager</h1>
-                    <button onClick={logout} className="px-4 py-2 text-sm text-white bg-red-500 rounded-lg hover:bg-red-600">
+                    <button onClick={logout} className="px-4 py-2 text-sm text-white bg-red-500 rounded-lg hover:bg-red-600 hover:cursor-pointer">
                         Logout
                     </button>
                 </div>
@@ -120,7 +120,7 @@ const TasksPage = () => {
                                         disabled={isSubmitting}
                                     ></textarea>
                                 </div>
-                                <button type="submit" className="w-full py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 flex justify-center items-center" disabled={isSubmitting}>
+                                <button type="submit" className="w-full py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 flex justify-center items-center hover:cursor-pointer" disabled={isSubmitting}>
                                     {isSubmitting ? <SmallSpinner /> : 'Add'}
                                 </button>
                             </form>
@@ -141,7 +141,7 @@ const TasksPage = () => {
                                         </div>
                                         <button 
                                             onClick={() => handleDone(task.id)} 
-                                            className="px-4 py-1 text-sm border border-gray-400 rounded-md bg-white flex items-center"
+                                            className="px-4 py-1 text-sm border border-gray-400 rounded-md bg-white flex items-center hover:bg-gray-100 hover:cursor-pointer"
                                             disabled={taskStatus[task.id]}
                                         >
                                             {taskStatus[task.id] ? <SmallSpinner /> : 'Done'}

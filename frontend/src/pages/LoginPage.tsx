@@ -43,13 +43,14 @@ const LoginPage = () => {
       <div className="p-8 bg-white rounded-lg shadow-md w-96">
         <h2 className="mb-6 text-2xl font-bold text-center">Login</h2>
         {error && <p className="mb-4 text-red-500">{error}</p>}
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} data-testid="login-form">
           <div className="mb-4">
-            <label className="block mb-2 text-sm font-medium text-gray-700">
+            <label htmlFor="username" className="block mb-2 text-sm font-medium text-gray-700">
               Username
             </label>
             <input
               type="text"
+              id="username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-200"
@@ -58,11 +59,12 @@ const LoginPage = () => {
             />
           </div>
           <div className="mb-6">
-            <label className="block mb-2 text-sm font-medium text-gray-700">
+            <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-700">
               Password
             </label>
             <input
               type="password"
+              id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-200"
@@ -72,7 +74,7 @@ const LoginPage = () => {
           </div>
           <button
             type="submit"
-            className="w-full py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 flex justify-center items-center"
+            className="w-full py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 flex justify-center items-center hover:cursor-pointer"
             disabled={loading}
           >
             {loading ? <SmallSpinner /> : "Login"}

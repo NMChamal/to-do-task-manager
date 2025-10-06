@@ -65,7 +65,7 @@ const RegisterPage = () => {
                             disabled={loading}
                         />
                     </div>
-                    <button type="submit" className="w-full py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 flex justify-center items-center" disabled={loading}>
+                    <button type="submit" className="w-full py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 flex justify-center items-center hover:cursor-pointer" disabled={loading}>
                         {loading ? <SmallSpinner /> : 'Register'}
                     </button>
                 </form>
