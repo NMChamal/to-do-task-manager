@@ -4,18 +4,19 @@
 
 ### Frontend
 
-* React
-* TypeScript
-* Vite
-* Tailwind CSS
-* Vitest
-* Testing Library
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- Vitest
+- Testing Library
 
 ### Backend
 
-* Node.js
-* Express
-* Jest
+- Node.js
+- Express
+- Jest
+- Swagger
 
 ## How to Run
 
@@ -31,6 +32,10 @@
 2. Run `npm install` in the root directory to install all dependencies for both frontend and backend.
 3. Run `npm run dev` in the root directory to start both the frontend and backend servers concurrently.
 4. The frontend will be available at `http://localhost:5173` and the backend at `http://localhost:3000`.
+
+## API Documentation
+
+This project uses Swagger for API documentation. The documentation is available at `http://localhost:3000/api-docs` when the backend server is running.
 
 ## Test Results
 
@@ -60,23 +65,23 @@
 > jest --coverage
 
 ----------------------|---------|----------|---------|---------|-------------------
-File                  | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+File                  | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
 ----------------------|---------|----------|---------|---------|-------------------
-All files             |   69.15 |    34.61 |   42.85 |   71.15 |                   
- backend              |   85.71 |       50 |     100 |   85.71 |                   
-  database.js         |   85.71 |       50 |     100 |   85.71 | 9-10              
- backend/controllers  |   82.05 |       50 |     100 |   82.05 |                   
-  authController.js   |   88.88 |     62.5 |     100 |   88.88 | 12,25             
-  taskController.js   |   76.19 |        0 |     100 |   76.19 | 9-12,21,31        
- backend/middleware   |     100 |      100 |     100 |     100 |                   
-  rateLimiter.js      |     100 |      100 |     100 |     100 |                   
- backend/repositories |   21.73 |        0 |       0 |      25 |                   
-  taskRepository.js   |   21.73 |        0 |       0 |      25 | 4-8,14-18,24-28   
- backend/routes       |     100 |      100 |     100 |     100 |                   
-  authRoutes.js       |     100 |      100 |     100 |     100 |                   
-  taskRoutes.js       |     100 |      100 |     100 |     100 |                   
- backend/services     |   45.45 |        0 |       0 |   45.45 |                   
-  taskService.js      |   45.45 |        0 |       0 |   45.45 | 4-8,12,16         
+All files             |   69.15 |    34.61 |   42.85 |   71.15 |
+ backend              |   85.71 |       50 |     100 |   85.71 |
+  database.js         |   85.71 |       50 |     100 |   85.71 | 9-10
+ backend/controllers  |   82.05 |       50 |     100 |   82.05 |
+  authController.js   |   88.88 |     62.5 |     100 |   88.88 | 12,25
+  taskController.js   |   76.19 |        0 |     100 |   76.19 | 9-12,21,31
+ backend/middleware   |     100 |      100 |     100 |     100 |
+  rateLimiter.js      |     100 |      100 |     100 |     100 |
+ backend/repositories |   21.73 |        0 |       0 |      25 |
+  taskRepository.js   |   21.73 |        0 |       0 |      25 | 4-8,14-18,24-28
+ backend/routes       |     100 |      100 |     100 |     100 |
+  authRoutes.js       |     100 |      100 |     100 |     100 |
+  taskRoutes.js       |     100 |      100 |     100 |     100 |
+ backend/services     |   45.45 |        0 |       0 |   45.45 |
+  taskService.js      |   45.45 |        0 |       0 |   45.45 | 4-8,12,16
 ----------------------|---------|----------|---------|---------|-------------------
 PASS __tests__/auth.test.js
 PASS __tests__/task.test.js
